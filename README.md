@@ -1,2 +1,1 @@
-"# tmp" 
-"# bismintul" 
+MANTUL BOS Q
