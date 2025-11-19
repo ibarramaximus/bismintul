@@ -8,16 +8,14 @@ KUNTUL ALA KINTIL TUL
 
 ---
 
-### ⚡ [ ACCESS GRANTED : BISMINTUL MODE ]
+### ⚡ [ ACCESS GRANTED : BISMINTUL ]
 <code>
 User:   root@bismintul
 Status: online
 Level:  unstable genius
 </code>
 
-Area ini bukan buat orang normal.  
-Ini markas buat yang suka **ngoprek kode, nge-bruteforce error, dan ngetes batasan logika.**
-
+WARNING AREA
 ---
 
 ## 🛠 TOOLKIT
@@ -62,8 +60,7 @@ Ini markas buat yang suka **ngoprek kode, nge-bruteforce error, dan ngetes batas
 
 ## ☠️ WARNING LOG
 
-> “Jika lo nemu bug, itu bukan salah gue.  
-> Itu cuma fitur yang belum gue ngakuin.”
+> “mau ngapain sampe sini sayangku.
 
 ---
 
