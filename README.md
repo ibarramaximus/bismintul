@@ -1,68 +1,87 @@
 <div align="center">
 
+<pre style="font-family:monospace; color:#00ff00;">
+░█▄▄░█░█░▀█▀░█▀▄░█▀▀░█▀█░▀█▀  
+░█▄█░█░█░░█░░█▀▄░█▀▀░█░█░░█░  
+░▀░▀░▀▀▀░▀▀▀░▀░▀░▀▀▀░▀░▀░▀▀▀  
 
+█▄▄ █ █▀▄ █▀▄ █▀▄ █ █▄░█ ▀█▀  
+█▄█ █ █▄▀ █▄▀ █▄▀ █ █░▀█ ░█░  
 
-<img src="https://github.com/user-attachments/assets/6b5fe32c-82cc-4fde-b974-943e99cb1837" width="350" style="border:2px solid #0aff0a; border-radius:10px;" />
+</pre>
 
-<div style="font-family:monospace; color:#0aff0a; font-size:14px;">
+<img src="https://github.com/user-attachments/assets/6b5fe32c-82cc-4fde-b974-943e99cb1837" width="260" />
 
-██████╗ ██╗███████╗███╗░░░███╗██╗███╗░░██╗████████╗██╗░░░██╗██╗
-██╔══██╗██║██╔════╝████╗░████║██║████╗░██║╚══██╔══╝██║░░░██║██║
-██████╦╝██║█████╗░░██╔████╔██║██║██╔██╗██║░░░██║░░░╚██╗░██╔╝██║
-██╔══██╗██║██╔══╝░░██║╚██╔╝██║██║██║╚████║░░░██║░░░░╚████╔╝░╚═╝
-██████╦╝██║███████╗██║░╚═╝░██║██║██║░╚███║░░░██║░░░░░╚██╔╝░░██╗
-╚═════╝░╚═╝╚══════╝╚═╝░░░░░╚═╝╚═╝╚═╝░░╚══╝░░░╚═╝░░░░░░╚═╝░░░╚═╝
-
-</div>
-
----
-
-### 🧿 **SYSTEM ACCESS: GRANTED**
-> Node linked. Encryption stable.  
-> User recognized: **ROOT LEVEL**.
-
-Firewall bypassed…  
-Protocols disabled…  
-Entering **CYBER REALM**.
+<h1 style="color:#00ff00; font-family:monospace; margin-top:16px;">
+KUNTUL ALA KINTIL TUL
+</h1>
 
 ---
 
-## 🛠️ SYSTEM LOADOUT
+### ⚡ [ ACCESS GRANTED : BISMINTUL MODE ]
+<code>
+User:   root@bismintul
+Status: online
+Level:  unstable genius
+</code>
 
-[ LANG ] : JavaScript | Python | Bash
-[ TOOLS ] : Git | Linux | VSCode | Nmap
-[ MODE ] : Stealth | Attack | Overclock
-
-
----
-
-## 📊 DIAGNOSTIC REPORT
-![Stats](https://github-readme-stats.vercel.app/api?username=USERNAME&show_icons=true&theme=merko)
-![Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=USERNAME&layout=compact&theme=merko)
+Area ini bukan buat orang normal.  
+Ini markas buat yang suka **ngoprek kode, nge-bruteforce error, dan ngetes batasan logika.**
 
 ---
 
-## ⚙️ ACTIVE PROCESSES
+## 🛠 TOOLKIT
 
-    Booting dark_kernel.sys
-    Spawning shadow_threads...
-    Injecting payloads...
-    Running anomaly_detector...
-    STATUS: CLEAN | TRACELESS
+~~~txt
+[ LANGUAGES ]
+  - JavaScript
+  - Python
+  - Bash
 
+[ TOOLS ]
+  - Git / GitHub
+  - VSCode
+  - Linux Terminal
+
+[ FOCUS ]
+  - Backend / API
+  - Otak-atik sistem
+  - Ngancurin bug
+~~~
 
 ---
 
-## 💀 SYSTEM WARNING
-> “Shadow isn’t dark.  
-> Darkness is what hides inside the shadow.”
+## 📊 SYSTEM STATS
+
+![Stats](https://github-readme-stats.vercel.app/api?username=USERNAME&show_icons=true&theme=chartreuse-dark)
+![Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=USERNAME&layout=compact&theme=chartreuse-dark)
 
 ---
 
-## 🔗 CONTACT LINK
+## 🧨 ACTIVE PROCESSES
 
-/open-secure-channel
-Awaiting encrypted input...
+~~~txt
+[01] booting_bismintul_core...
+[02] scanning_vulnerabilities...
+[03] injecting_creativity.dll...
+[04] compiling_bad_ideas...
+[OK] system_status: UNSTABLE BUT RUNNING
+~~~
 
+---
+
+## ☠️ WARNING LOG
+
+> “Jika lo nemu bug, itu bukan salah gue.  
+> Itu cuma fitur yang belum gue ngakuin.”
+
+---
+
+## 📡 CONTACT CHANNEL
+
+~~~txt
+> open_secure_channel --mode stealth
+> awaiting_encrypted_message...
+~~~
 
 </div>
