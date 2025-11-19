@@ -1,74 +1,51 @@
 <div align="center">
 
-<img src="https://github.com/user-attachments/assets/6b5fe32c-82cc-4fde-b974-943e99cb1837" width="260" />
-
-<h1 style="color:#00ff00; font-family:monospace; margin-top:16px;">
-KUNTUL ALA KINTIL TUL
+<h1 style="font-size:55px; font-weight:900; color:#b300ff; font-family:'Courier New', monospace; margin-bottom:0;">
+BISMINTUL
 </h1>
 
----
+<img src="https://github.com/user-attachments/assets/6b5fe32c-82cc-4fde-b974-943e99cb1837" width="260" style="border-radius:12px; box-shadow:0 0 25px #b300ff; margin-top:10px;" />
 
-### ⚡ [ ACCESS GRANTED : BISMINTUL ]
-<code>
-User:   root@bismintul
-Status: online
-Level:  unstable genius
-</code>
+<p style="color:#bb86fc; font-family:monospace; font-size:20px; margin-top:10px; font-weight:bold;">
+KUNTUL ALA KINTIL TUL
+</p>
 
-WARNING AREA
----
+<br>
 
-## 🛠 TOOLKIT
+<p style="color:#9b59ff; font-family:monospace;">
+<strong>System rerouted. Reality patched.<br>
+Welcome to the neon-side of chaos.</strong>
+</p>
 
-~~~txt
-[ LANGUAGES ]
-  - JavaScript
-  - Python
-  - Bash
+<br>
 
-[ TOOLS ]
-  - Git / GitHub
-  - VSCode
-  - Linux Terminal
+<pre style="background:#0f0f1b; color:#b300ff; padding:18px; border-radius:10px; text-align:left; font-size:14px; font-family:'Courier New', monospace; width:75%;">
 
-[ FOCUS ]
-  - Backend / API
-  - Otak-atik sistem
-  - Ngancurin bug
-~~~
+STATUS    : Online
+MODE      : Unstable Genius
+REALM     : Cyberpunk District 404
 
----
+LANGS     : JavaScript | Python | C++
+TOOLS     : Git | VSCode | Linux
+ENERGY    : Coffee 99% | Sleep 1%
 
-## 📊 SYSTEM STATS
+REACTOR   : Booting neon_core.dll
+MEMORY    : Overflow detected...
+RUNTIME   : Executing questionable decisions
+OUTPUT    : Creativity.exe -> SUCCESS
 
-![Stats](https://github-readme-stats.vercel.app/api?username=USERNAME&show_icons=true&theme=chartreuse-dark)
-![Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=USERNAME&layout=compact&theme=chartreuse-dark)
+</pre>
 
----
+<br>
 
-## 🧨 ACTIVE PROCESSES
+<img src="https://github-readme-stats.vercel.app/api?username=USERNAME&show_icons=true&theme=tokyonight" width="420" />
 
-~~~txt
-[01] booting_bismintul_core...
-[02] scanning_vulnerabilities...
-[03] injecting_creativity.dll...
-[04] compiling_bad_ideas...
-[OK] system_status: UNSTABLE BUT RUNNING
-~~~
+<img src="https://github-readme-stats.vercel.app/api/top-langs/?username=USERNAME&layout=compact&theme=tokyonight" width="350" />
 
----
+<br><br>
 
-## ☠️ WARNING LOG
-
-> “mau ngapain sampe sini sayangku.
-
----
-
-## 📡 CONTACT CHANNEL
-
-~~~txt
-> open_secure_channel --mode stealth
-> awaiting_encrypted_message...
-~~~
+<p style="color:#bb86fc; font-family:monospace; font-size:15px;">
+<i>"Glitches are just features from the future."</i>
+</p>
 
 </div>
