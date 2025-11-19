@@ -1,15 +1,5 @@
 <div align="center">
 
-<pre style="font-family:monospace; color:#00ff00;">
-░█▄▄░█░█░▀█▀░█▀▄░█▀▀░█▀█░▀█▀  
-░█▄█░█░█░░█░░█▀▄░█▀▀░█░█░░█░  
-░▀░▀░▀▀▀░▀▀▀░▀░▀░▀▀▀░▀░▀░▀▀▀  
-
-█▄▄ █ █▀▄ █▀▄ █▀▄ █ █▄░█ ▀█▀  
-█▄█ █ █▄▀ █▄▀ █▄▀ █ █░▀█ ░█░  
-
-</pre>
-
 <img src="https://github.com/user-attachments/assets/6b5fe32c-82cc-4fde-b974-943e99cb1837" width="260" />
 
 <h1 style="color:#00ff00; font-family:monospace; margin-top:16px;">
