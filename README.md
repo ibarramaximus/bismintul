@@ -1,43 +1,66 @@
 <div align="center">
 
-<img src="https://github.com/user-attachments/assets/6b5fe32c-82cc-4fde-b974-943e99cb1837" width="300" />
+<div style="font-family:monospace; color:#0aff0a; font-size:14px;">
 
-<h1 style="color:red; font-weight:900;">
+░█▀▀░█░█░█▀█░▀█▀░█░█░█░█  
+░█░█░█░█░█░█░░█░░█░█░▀░█  
+░▀▀▀░▀▀▀░▀░▀░▀▀▀░▀▀▀░▀▀▀  
+</div>
+
+<img src="https://github.com/user-attachments/assets/6b5fe32c-82cc-4fde-b974-943e99cb1837" width="280" style="border:2px solid #0aff0a; border-radius:10px;" />
+
+<h1 style="color:#0aff0a; font-family:monospace; margin-top:20px;">
 KUNTUL ALA KINTIL TUL
 </h1>
 
 ---
 
-### 🚀 Welcome to My GitHub Playground
-Tempat gue ngoprek, ngoding, nyoba hal baru, kadang bener… kadang juga kagak.  
-Yang penting **gas terus tanpa takut error**.
+### 🧿 **SYSTEM ACCESS: GRANTED**
+> Node linked. Encryption stable.  
+> User recognized: **ROOT LEVEL**.
+
+Firewall bypassed…  
+Protocols disabled…  
+Entering **CYBER REALM**.
 
 ---
 
-## 💻 Tech Stack
-🛠️ **Languages:**  
-`JavaScript` • `Python` • `HTML` • `CSS`
+## 🛠️ SYSTEM LOADOUT
 
-⚙️ **Tools:**  
-`VSCode` • `Git` • `Terminal` • `Figma`
+[ LANG ] : JavaScript | Python | Bash
+[ TOOLS ] : Git | Linux | VSCode | Nmap
+[ MODE ] : Stealth | Attack | Overclock
 
-☁️ **Currently Learning:**  
-`Backend` • `API` • `Cloud`
 
 ---
 
-## 📊 GitHub Stats
-![Stats](https://github-readme-stats.vercel.app/api?username=USERNAME&show_icons=true&theme=radical)
-![Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=USERNAME&layout=compact&theme=radical)
+## 📊 DIAGNOSTIC REPORT
+![Stats](https://github-readme-stats.vercel.app/api?username=USERNAME&show_icons=true&theme=merko)
+![Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=USERNAME&layout=compact&theme=merko)
 
 ---
 
-## 🔥 Quote of The Day
-> “Kode yang bagus itu bukan yang sempurna, tapi yang **jalan dulu**.”
+## ⚙️ ACTIVE PROCESSES
+
+    Booting dark_kernel.sys
+    Spawning shadow_threads...
+    Injecting payloads...
+    Running anomaly_detector...
+    STATUS: CLEAN | TRACELESS
+
 
 ---
 
-### 🤝 Connect With Me  
-📩 DM aja kalau mau collab atau bikin project bareng.
+## 💀 SYSTEM WARNING
+> “Shadow isn’t dark.  
+> Darkness is what hides inside the shadow.”
+
+---
+
+## 🔗 CONTACT LINK
+
+/open-secure-channel
+Awaiting encrypted input...
+
 
 </div>
