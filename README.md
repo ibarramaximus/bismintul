@@ -43,11 +43,15 @@ Entering **CYBER REALM**.
 
 ## ⚙️ ACTIVE PROCESSES
 
-Booting dark_kernel.sys
-Spawning shadow_threads...
-Injecting payloads...
-Running anomaly_detector...
-STATUS: CLEAN | TRACELESS
+> Booting dark_kernel.sys
+
+> Spawning shadow_threads...
+
+> Injecting payloads...
+
+> Running anomaly_detector...
+
+> STATUS: CLEAN | TRACELESS
 
 
 ---
