@@ -1,65 +1,62 @@
-<div align="center" style="font-family:monospace;">
+<div align="center">
 
-<!-- TITLE -->
-<h1 style="color:#7f00ff; font-size:50px; font-weight:900; margin-bottom:0; text-shadow:0 0 18px #7f00ff;">
-B I S M I N T U L
+<h1 style="font-size:48px; font-weight:800; color:#ffffff; letter-spacing:8px; margin-bottom:5px;">
+BISMINTUL
 </h1>
 
-<!-- IMAGE -->
 <img src="https://github.com/user-attachments/assets/6b5fe32c-82cc-4fde-b974-943e99cb1837"
-     width="240"
-     style="border-radius:12px; margin-top:10px; box-shadow:0 0 25px #7f00ff;" />
+     width="230"
+     style="border-radius:10px; margin-top:20px; box-shadow:0 0 25px rgba(255,0,0,0.35);" />
 
-<!-- SUBTITLE -->
-<p style="color:#b583ff; font-size:20px; margin-top:12px; font-weight:bold;">
+<p style="color:#cfcfcf; font-size:15px; margin-top:18px;">
 K U N T U L &nbsp; A L A &nbsp; K I N T I L &nbsp; T U L
 </p>
 
-<!-- QUOTE -->
-<p style="color:#d8b4ff; font-size:14px; margin-top:5px;">
-<i>"Precision. Chaos. Style. A perfect combination."</i>
+<p style="color:#9c9c9c; font-size:14px; margin-top:5px; font-style:italic;">
+"Silent. Sharp. Precise. Built different."
 </p>
 
-<!-- INFO BOX -->
-<pre style="
-background:#0c0017;
-color:#c77dff;
-padding:22px;
+<br>
+
+<!-- CLEAN INFO PANEL -->
+<div style="
+background:#0d0d0d;
+padding:28px;
 border-radius:14px;
+width:78%;
 text-align:left;
+color:#d6d6d6;
 font-size:14px;
-width:82%;
-margin-top:25px;
-box-shadow:0 0 25px #7f00ff;">
-IDENTITY        : Bismintul Protocol v2.0
-ALIGNMENT       : Chaotic Genius
-SIGNATURE       : Neon Purple Pulse
-SKILL LEVEL     : MAXED OUT
+line-height:22px;
+box-shadow:0 0 40px rgba(0,0,0,0.65);">
 
-TECH STACK:
- - JavaScript  |  Python  |  C++
- - Node.js     |  Express
- - Linux       |  Git | VSCode
+<strong style="color:#ffffff;">IDENTITY</strong>
+- Bismintul v2.0
+- Alignment : Calm but dangerous
+- Style     : Minimal dark elegance
 
-ATTRIBUTES:
- - Creativity Boost............. 100%
- - Bug Resistance............... 4%
- - Overthinking Mode............ ENABLED
- - Coffee Dependency............ CRITICAL
+<strong style="color:#ffffff;">TECH STACK</strong>
+- JavaScript · Python · C++
+- Node.js · Express
+- Linux · Git · VSCode
 
-SYSTEM NOTES:
- - Running stable in unstable mode
- - Accepting only good vibes & cool ideas
-</pre>
+<strong style="color:#ffffff;">TRAITS</strong>
+- Precision mindset
+- Cold execution
+- Creative intelligence
+- Coffee-powered workflow
 
-<!-- STATS -->
-<img src="https://github-readme-stats.vercel.app/api?username=USERNAME&show_icons=true&theme=midnight-purple&hide_border=true&bg_color=00000000" width="420" />
+<strong style="color:#ffffff;">NOTES</strong>
+- Does not follow trends — makes them.
+- Runs stable under chaos.
+- Focused on growth & skill mastery.
 
-<img src="https://github-readme-stats.vercel.app/api/top-langs/?username=USERNAME&layout=compact&theme=midnight-purple&hide_border=true&bg_color=00000000" width="350" />
+</div>
 
-<!-- FOOTER QUOTE -->
-<p style="color:#cda2ff; font-size:14px; margin-top:25px;">
-<i>"If you can read this, you're already part of the upgrade."</i>
+<br><br>
+
+<p style="color:#5c5c5c; font-size:13px; margin-top:10px; font-style:italic;">
+"If you understand the silence, you understand everything."
 </p>
 
 </div>
