@@ -27,9 +27,9 @@ Entering **CYBER REALM**.
 
 ## 🛠️ SYSTEM LOADOUT
 
-[ LANG ] : JavaScript | Python | Bash
-[ TOOLS ] : Git | Linux | VSCode | Nmap
-[ MODE ] : Stealth | Attack | Overclock
+> [ LANG ] : JavaScript | Python | Bash
+> [ TOOLS ] : Git | Linux | VSCode | Nmap
+> [ MODE ] : Stealth | Attack | Overclock
 
 
 ---
