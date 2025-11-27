@@ -268,7 +268,7 @@ if (isset($_GET['change_permission'])) {
 <!DOCTYPE html>
 <html>
 <head>
-<title>XKAZE VOL.2</title>
+<title>Xkaze Vol.2</title>
 <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 <style>
