@@ -269,6 +269,8 @@ if (isset($_GET['change_permission'])) {
 <html>
 <head>
 <title>Xkaze Vol.2</title>
+<link rel="icon" href="https://raw.githubusercontent.com/ibarramaximus/bismintul/refs/heads/main/kaze.png" type="image/x-icon">
+<meta name="robots" content="noindex, nofollow">
 <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 <style>
@@ -388,6 +390,9 @@ button span {
 
 .breadcrumb a { 
     color: #7cffea; 
+    font-size: 25px;
+    font-family: monospace;
+    text-shadow: 2px 2px 4px red;
 }
 
 th:nth-child(4), td:nth-child(4) {
@@ -554,10 +559,8 @@ h2 {
     </div>
 </div>
 
-
-<h2>📂 XKAZE Vol.2</h2>
-
 <div class="breadcrumb">
+    <img src="https://raw.githubusercontent.com/ibarramaximus/bismintul/refs/heads/main/banner.png"  alt="vol.2" width="300" height="150">
     <b>Path: </b>
     <?php
     // Root folder yang ingin dijadikan home path
